@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Little Adventure ❤️</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+
+:root {
+  --pink: #ff91b8;
+  --red: #ff5d79;
+  --cream: #fff5e9;
+  --orange: #ff9b42;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Fredoka', sans-serif;
+  color: #693b52;
+  background: linear-gradient(160deg, #fff1f5, #ffe0c4, #ffd6e8);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+button, input { font: inherit; }
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 16px;
+  padding: 12px 22px;
+  background: var(--red);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 5px 0 #d94769;
+  transition: .2s;
+}
+
+button:hover { transform: translateY(-3px); }
+
+.hidden { display: none !important; }
+
+/* GİRİŞ EKRANI */
+
+#login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.login-card {
+  width: min(100%, 410px);
+  padding: 35px 24px;
+  border: 3px solid white;
+  border-radius: 30px;
+  background: #ffffffb8;
+  box-shadow: 0 15px 45px #ed8db544;
+  backdrop-filter: blur(10px);
+}
+
+.flame {
+  font-size: 75px;
+  animation: float 2s ease-in-out infinite;
+}
+
+h1, h2, p { overflow-wrap: anywhere; }
+
+.login-card h1 {
+  color: #ed537c;
+  font-size: 32px;
+  margin: 10px 0;
+}
+
+.login-card p { line-height: 1.6; }
+
+#password {
+  width: 100%;
+  padding: 15px;
+  margin: 12px 0 18px;
+  border: 2px solid #ffc2d5;
+  border-radius: 14px;
+  background: white;
+  text-align: center;
+  letter-spacing: 8px;
+  outline-color: var(--red);
+}
+
+#error {
+  color: #d52d56;
+  min-height: 24px;
+}
+
+/* ANA SAYFA */
+
+header {
+  padding: 45px 18px 25px;
+  text-align: center;
+}
+
+.tag {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 30px;
+  background: #fff9;
+  border: 1px solid white;
+}
+
+header h1 {
+  font-size: clamp(34px, 8vw, 62px);
+  color: #ef6288;
+  margin: 18px 0 8px;
+  text-shadow: 2px 3px white;
+}
+
+header p { font-size: 18px; }
+
+.container {
+  width: min(920px, 92%);
+  margin: auto;
+}
+
+.panel {
+  padding: 25px;
+  margin: 22px 0;
+  border: 2px solid white;
+  border-radius: 25px;
+  background: #ffffffa8;
+  box-shadow: 0 8px 25px #c86e8517;
+}
+
+.panel h2 {
+  color: #e65b83;
+  margin-top: 0;
+}
+
+.characters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.character {
+  width: 135px;
+  padding: 12px;
+  background: white;
+  border-radius: 22px;
+  transform: rotate(-2deg);
+}
+
+.character:nth-child(2) { transform: rotate(2deg); }
+
+.character img {
+  width: 100%;
+  height: 130px;
+  object-fit: contain;
+}
+
+.character span { display: block; font-weight: 600; }
+
+/* FOTOĞRAFLAR */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  gap: 15px;
+}
+
+.photo {
+  min-height: 190px;
+  padding: 10px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 12px #ad5e7520;
+  transform: rotate(-1deg);
+}
+
+.photo:nth-child(even) { transform: rotate(1deg); }
+
+.photo img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.photo p { text-align: center; margin-bottom: 3px; }
+
+.notes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.note {
+  background: #fff3a9;
+  padding: 20px;
+  border-radius: 8px 8px 20px 8px;
+  transform: rotate(-1deg);
+  line-height: 1.6;
+}
+
+.note:nth-child(even) {
+  background: #ffd9e6;
+  transform: rotate(1deg);
+}
+
+#loveCounter {
+  font-size: 24px;
+  color: #ed537c;
+  font-weight: 700;
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+  padding: 35px 15px;
+}
+
+/* EFEKTLER */
+
+.heart {
+  position: fixed;
+  top: -30px;
+  pointer-events: none;
+  z-index: 10;
+  animation: fall linear forwards;
+}
+
+.confetti {
+  position: fixed;
+  top: -15px;
+  z-index: 100;
+  pointer-events: none;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes float {
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+#musicButton {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  z-index: 20;
+  border-radius: 50px;
+  padding: 12px 16px;
+}
+
+@media(max-width: 480px) {
+  .panel { padding: 18px; }
+  .login-card { padding: 28px 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- GİRİŞ: ŞİFRE VE TARİH -->
+<section id="login">
+  <div class="login-card">
+    <div class="flame">🔥💗</div>
+    <h1>my shayla</h1>
+    <p>Benim için önemli olan tarih ne? </p>
+
+    <form id="loginForm">
+      <input
+        id="password"
+        type="password"
+        inputmode="numeric"
+        maxlength="4"
+        placeholder="••••"
+        aria-label="Şifre"
+        autocomplete="off"
+        required
+      >
+      <button type="submit">Dünyama gir 💖</button>
+    </form>
+
+    <p id="error"></p>
+    <small>Birlikte bizim küçük maceramız ✨</small>
+  </div>
+</section>
+
+<!-- ANA SAYFA -->
+<main id="site" class="hidden">
+
+  <header>
+    <span class="tag">🌈 Land of Ooo • Love Edition</span>
+    <h1>Our Little Adventure 💗</h1>
+    <p>hep benim kalbimde kal.</p>
+    <p>tek ait oldugum yer sensin.</p>
+  </header>
+
+  <div class="container">
+
+    <section class="panel">
+      <h2 style="text-align:center">Bizim küçük evrenimiz 🌟</h2>
+      <div class="characters">
+
+        <!-- KARAKTER GÖRSELİ: KENDİ RESMİNİ EKLE -->
+        <div class="character">
+          <img src="spcode-08N6mfVAanBbO0E59PFn58.jpeg" alt="aşk">
+          <span>bezenmiş aşk</span>
+        </div>
+
+        <div class="character">
+          <img src="images.jfif" alt="love">
+          <span> love </span>
+        </div>
+
+        <div class="character">
+          <img src="ah.jpg" alt="oh yes">
+          <span>gözlerin</span>
+        </div>
+
+      </div>
+      <p style="text-align:center">
+        herşeyim seninlen güzel olsun. 
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>💌 Sana minicik bir not</h2>
+      <p>
+        Bazen sana ne kadar değer verdiğimi anlatacak kelime bulamıyorum.
+        Ama şunu bilmeni istiyorum Sen benim en sevdiğim tesadüf,
+        en güzel hikâyem ve yüzümü güldüren en güzel sebepsin.
+      </p>
+      <p>İyi ki seni sevmişim.</p>
+    </section>
+
+    <section class="panel">
+      <h2>📸 Bizden küçük anılar</h2>
+      <div class="gallery">
+
+        <!-- FOTOĞRAFLARINI BU ALANA KOY -->
+        <div class="photo">
+          <img src="foto1.jpg" alt="Bizim anımız">
+          <p>En sevdiğim an 💗</p>
+        </div>
+
+        <div class="photo">
+          <img src="foto2.jpg" alt="Güzel bir anımız">
+          <p>Sen ve ben 🧸</p>
+        </div>
+
+        <div class="photo">
+          <img src="foto3.jpg" alt="Tatlı bir anımız">
+          <p>Birlikte daha nice anılara ✨</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>🎀 Açınca gülümse diye...</h2>
+      <div class="notes">
+        <div class="note">💌 <b>Not 01</b><br>Bugün de seni seviyorum. Yarın da seveceğim.</div>
+        <div class="note">🌷 <b>Not 02</b><br>Gülüşün, en sevdiğim manzara.</div>
+        <div class="note">🔥 <b>Not 03</b><br>son nefesime kadar sarılalım sevgilim.</div>
+        <div class="note">🧸 <b>Not 04</b><br>Bir sarılma hakkın var. Hatta bin tane.</div>
+        <div class="note">🌙 <b>Not 05</b><br>Uzak olsak bile kalbimde yerin aynı.</div>
+        <div class="note">💗 <b>Not 06</b><br>Bu küçük site bile sana olan sevgimi anlatmaya yetmez.</div>
+      </div>
+    </section>
+
+    <section class="panel" style="text-align:center">
+      <h2>💖 Sana bir sorum var...</h2>
+      <p>Benimle bir ömür geçirmeye var mısın</p>
+      <button id="yesButton">SONSUZA KADAR!</button>
+      <p id="answer"></p>
+    </section>
+
+    <footer>
+      <p>Made with all my love 💗</p>
+      <p>Sen + Ben = En güzel macera 🌈</p>
+    </footer>
+
+  </div>
+</main>
+
+<!-- MÜZİK: KENDİ MP3 DOSYAN -->
+<audio id="music" loop>
+  <source src="ses.mp3" type="audio/mp3">
+</audio>
+
+<button id="musicButton" class="hidden">🎵 Müziği aç</button>
+
+<script>
+/* =================================
+   BURADAN KENDİ AYARLARINI YAP
+================================= */
+
+const SIFRE = "0809";
+
+// İstersen başlangıç tarihini buraya yaz:
+// Örnek: "2025-08-09"
+const BIRLIKTE_OLDUGUMUZ_TARIH = "";
+
+/* ================================= */
+
+const form = document.getElementById("loginForm");
+const password = document.getElementById("password");
+const error = document.getElementById("error");
+const login = document.getElementById("login");
+const site = document.getElementById("site");
+const music = document.getElementById("music");
+const musicButton = document.getElementById("musicButton");
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (password.value !== SIFRE) {
+    error.textContent = "Hımm... yanlış tarih aşkım 🥺 Tekrar dene!";
+    password.value = "";
+    return;
+  }
+
+  error.textContent = "";
+  login.classList.add("hidden");
+  site.classList.remove("hidden");
+  musicButton.classList.remove("hidden");
+
+  // Konfeti patlaması!
+  confettiBurst();
+
+  // Tarayıcı izin verirse müzik başlar.
+  try {
+    await music.play();
+    musicButton.textContent = "🎵 Müziği durdur";
+  } catch {
+    musicButton.textContent = "🎵 Müziği başlat";
+  }
+
+  // Sayfada tatlı kalpler uçuşsun.
+  setInterval(createHeart, 1000);
+});
+
+musicButton.addEventListener("click", async () => {
+  if (music.paused) {
+    try {
+      await music.play();
+      musicButton.textContent = "🎵 Müziği durdur";
+    } catch {
+      musicButton.textContent = "🎵 Tekrar dene";
+    }
+  } else {
+    music.pause();
+    musicButton.textContent = "🎵 Müziği başlat";
+  }
+});
+
+function confettiBurst() {
+  const colors = ["#ff5d79", "#ffca61", "#a98bff",
+                  "#ff91b8", "#ffffff", "#ff9b42"];
+
+  for (let i = 0; i < 130; i++) {
+    const piece = document.createElement("div");
+    piece.className = "confetti";
+    piece.textContent = Math.random() > 0.5 ? "♥" : "✦";
+    piece.style.left = Math.random() * 100 + "vw";
+    piece.style.color = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.fontSize = (12 + Math.random() * 18) + "px";
+    piece.style.animationDuration = (2 + Math.random() * 3) + "s";
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 5500);
+  }
+}
+
+function createHeart() {
+  if (site.classList.contains("hidden")) return;
+
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.textContent = ["💗", "💕", "✨", "🌸", "💖"][
+    Math.floor(Math.random() * 5)
+  ];
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (14 + Math.random() * 18) + "px";
+  heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 8500);
+}
+
+document.getElementById("yesButton").addEventListener("click", () => {
+  document.getElementById("answer").textContent =
+    "AĞĞĞ ÇOK SEVİYORUM SENİİİİ!";
+  confettiBurst();
+});
+</script>
+
+</body>
+</html>
